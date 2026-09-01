@@ -27,7 +27,7 @@ class MemoryChallengeStore {
     const now = record.now ?? Date.now()
     if (
       !current || current.consumed || current.challengeHash !== record.challengeHash
-      || record.tokenHash !== current.tokenHash || now > current.expiresAt
+      || (record.tokenHash !== null && record.tokenHash !== current.tokenHash) || now > current.expiresAt
     ) return false
     current.consumed = true
     return true
@@ -65,4 +65,43 @@ test('refreshing one form scope does not invalidate a separate mounted form', as
   assert.deepEqual(await captcha.verifyCaptchaSubmission({ secret, tenantId, siteScope, scope, store, token: oldA.token, answer: oldA.testAnswer, now: 1_002 }), { ok: false, code: 'invalid' })
   assert.deepEqual(await captcha.verifyCaptchaSubmission({ secret, tenantId, siteScope, scope: scopeB, store, token: currentB.token, answer: currentB.testAnswer, now: 1_002 }), { ok: true })
   assert.deepEqual(await captcha.verifyCaptchaSubmission({ secret, tenantId, siteScope, scope, store, token: currentA.token, answer: currentA.testAnswer, now: 1_002 }), { ok: true })
+})
+
+test('missing, wrong, expired, tampered and replayed submissions are rejected', async () => {
+  const cases = [
+    { label: 'missing', answer: '' },
+    { label: 'wrong', answer: 'ZZZZ' },
+  ]
+  for (const item of cases) {
+    const store = new MemoryChallengeStore()
+    const challenge = await captcha.issueCaptchaChallenge({ secret, tenantId, siteScope, scope, store, now: 2_000 })
+    const result = await captcha.verifyCaptchaSubmission({ secret, tenantId, siteScope, scope, store, token: challenge.token, answer: item.answer, now: 2_001 })
+    assert.equal(result.ok, false, item.label)
+    assert.equal(await captcha.verifyCaptchaSubmission({ secret, tenantId, siteScope, scope, store, token: challenge.token, answer: challenge.testAnswer, now: 2_002 }).then(r => r.ok), false, `${item.label} attempt must consume the challenge`)
+  }
+
+  const expiredStore = new MemoryChallengeStore()
+  const expired = await captcha.issueCaptchaChallenge({ secret, tenantId, siteScope, scope, store: expiredStore, now: 3_000, ttlMs: 5 })
+  assert.equal((await captcha.verifyCaptchaSubmission({ secret, tenantId, siteScope, scope, store: expiredStore, token: expired.token, answer: expired.testAnswer, now: expired.expiresAt + 1 })).ok, false)
+
+  const tamperedStore = new MemoryChallengeStore()
+  const tampered = await captcha.issueCaptchaChallenge({ secret, tenantId, siteScope, scope, store: tamperedStore, now: 4_000 })
+  const altered = `${tampered.token.slice(0, -1)}${tampered.token.endsWith('A') ? 'B' : 'A'}`
+  assert.equal((await captcha.verifyCaptchaSubmission({ secret, tenantId, siteScope, scope, store: tamperedStore, token: altered, answer: tampered.testAnswer, now: 4_001 })).ok, false)
+  assert.equal((await captcha.verifyCaptchaSubmission({ secret, tenantId, siteScope, scope, store: tamperedStore, token: tampered.token, answer: tampered.testAnswer, now: 4_002 })).ok, false)
+
+  const replayStore = new MemoryChallengeStore()
+  const replay = await captcha.issueCaptchaChallenge({ secret, tenantId, siteScope, scope, store: replayStore, now: 5_000 })
+  assert.equal((await captcha.verifyCaptchaSubmission({ secret, tenantId, siteScope, scope, store: replayStore, token: replay.token, answer: replay.testAnswer, now: 5_001 })).ok, true)
+  assert.equal((await captcha.verifyCaptchaSubmission({ secret, tenantId, siteScope, scope, store: replayStore, token: replay.token, answer: replay.testAnswer, now: 5_002 })).ok, false)
+})
+
+test('SVG response contains no plaintext answer or secret', async () => {
+  const store = new MemoryChallengeStore()
+  const challenge = await captcha.issueCaptchaChallenge({ secret, tenantId, siteScope, scope, store, now: 6_000 })
+  assert.ok(challenge.svg)
+  assert.equal(challenge.svg.includes(challenge.testAnswer), false)
+  assert.equal(challenge.svg.includes(secret), false)
+  assert.doesNotMatch(challenge.svg, /<text[\s>]/i)
+  assert.equal(challenge.svg.includes(`aria-label="${challenge.testAnswer}"`), false)
 })
