@@ -12,4 +12,5 @@ test('home sections use a perceptible reveal component', () => {
 test('an unavailable inquiry backend is not presented as success', () => {
   assert.match(form, /Online form unavailable/)
   assert.doesNotMatch(form, /state\.status === "invalid" \? "Check the form" : "Thanks for reaching out"/)
+  assert.match(form, /attempted && state\.status !== "idle"/)
 })

@@ -1,6 +1,6 @@
 "use client"
 
-import { useActionState, useEffect, useRef } from "react"
+import { useActionState, useEffect, useRef, useState } from "react"
 import { useFormStatus } from "react-dom"
 import { AlertCircle, CheckCircle2, Loader2 } from "lucide-react"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
@@ -33,6 +33,7 @@ export function InquiryForm() {
   const [state, formAction] = useActionState(submitInquiry, initialInquiryState)
   const formRef = useRef<HTMLFormElement>(null)
   const statusRef = useRef<HTMLDivElement>(null)
+  const [attempted, setAttempted] = useState(false)
 
   useEffect(() => {
     if (state.status !== "idle") {
@@ -43,8 +44,8 @@ export function InquiryForm() {
   const errors = state.fieldErrors ?? {}
 
   return (
-    <form ref={formRef} action={formAction} noValidate className="space-y-8">
-      {state.status !== "idle" && (
+    <form ref={formRef} action={formAction} onSubmit={() => setAttempted(true)} noValidate className="space-y-8">
+      {attempted && state.status !== "idle" && (
         <Alert
           ref={statusRef}
           tabIndex={-1}
