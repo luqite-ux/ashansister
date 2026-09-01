@@ -106,9 +106,15 @@ export function HeroCarousel() {
               <p className="max-w-md text-xs font-semibold uppercase tracking-[0.14em] text-[#f5ead4] sm:text-sm">
                 {slide.eyebrow}
               </p>
-              <h1 className="mt-3 max-w-xl text-balance font-serif text-3xl font-semibold leading-tight text-[#fff8ea] sm:text-4xl lg:text-5xl">
-                {slide.heading}
-              </h1>
+              {i === 0 ? (
+                <h1 className="mt-3 max-w-xl text-balance font-serif text-3xl font-semibold leading-tight text-[#fff8ea] sm:text-4xl lg:text-5xl">
+                  {slide.heading}
+                </h1>
+              ) : (
+                <h2 className="mt-3 max-w-xl text-balance font-serif text-3xl font-semibold leading-tight text-[#fff8ea] sm:text-4xl lg:text-5xl">
+                  {slide.heading}
+                </h2>
+              )}
               <p className="mt-4 max-w-lg text-pretty text-sm leading-relaxed text-[#f0e6d3] sm:text-base">
                 {slide.body}
               </p>
