@@ -3,6 +3,7 @@ import { Inter, Fraunces, Geist_Mono, Geist } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { SiteHeader } from "@/components/layout/site-header"
 import { SiteFooter } from "@/components/layout/site-footer"
+import { buildOrganizationJsonLd, serializeJsonLd } from "@/lib/structured-data"
 import "./globals.css"
 import { cn } from "@/lib/utils";
 
@@ -66,9 +67,12 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const organizationJsonLd = buildOrganizationJsonLd()
+
   return (
     <html lang="en" className={cn("bg-background", "font-sans", geist.variable)}>
       <body className={`${_inter.variable} ${_fraunces.variable} font-sans antialiased bg-background text-foreground`}>
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(organizationJsonLd) }} />
         <a
           href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-primary focus:px-4 focus:py-2 focus:text-primary-foreground"

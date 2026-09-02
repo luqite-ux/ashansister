@@ -18,6 +18,7 @@ import {
 } from "@/lib/data/products"
 import { getCatalogProduct, getCatalogProducts } from "@/lib/catalog-db"
 import { getDictionary } from "@/lib/i18n/get-dictionary"
+import { buildProductBreadcrumbJsonLd, buildProductJsonLd, serializeJsonLd } from "@/lib/structured-data"
 
 const dict = getDictionary()
 
@@ -57,9 +58,13 @@ export default async function ProductDetailPage({
 
   const category = getCategoryBySlug(product.category)
   const related = (await getCatalogProducts()).filter((p) => p.category === product.category && p.slug !== product.slug).slice(0, 3)
+  const productJsonLd = buildProductJsonLd(product)
+  const breadcrumbJsonLd = buildProductBreadcrumbJsonLd(product, category?.name)
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-14 lg:px-8 lg:py-16">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(productJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbJsonLd) }} />
       <Breadcrumb>
         <BreadcrumbList>
           <BreadcrumbItem>
