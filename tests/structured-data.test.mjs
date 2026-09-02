@@ -14,4 +14,5 @@ test('publishes product and breadcrumb structured data on product details', () =
   assert.match(productPage, /buildProductJsonLd/)
   assert.match(productPage, /buildProductBreadcrumbJsonLd/)
   assert.match(productPage, /application\/ld\+json/g)
+  assert.match(productPage, /openGraph:\s*\{[\s\S]*?url:\s*`\/products\/\$\{product\.slug\}`/)
 })

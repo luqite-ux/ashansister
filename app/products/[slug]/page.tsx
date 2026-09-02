@@ -42,6 +42,7 @@ export async function generateMetadata({
     openGraph: {
       title: product.name,
       description: product.shortDescription,
+      url: `/products/${product.slug}`,
       images: [{ url: product.image, alt: product.imageAlt }],
     },
   }
