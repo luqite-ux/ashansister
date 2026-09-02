@@ -32,9 +32,9 @@ export function SiteHeader() {
           <Image
             src="/images/logo.jpg"
             alt={`${dict.brand.name} logo`}
-            width={44}
-            height={44}
-            className="h-10 w-10 rounded-lg object-cover lg:h-12 lg:w-12"
+            width={64}
+            height={64}
+            className="h-12 w-12 rounded-lg object-cover lg:h-16 lg:w-16"
             priority
           />
           <span className="hidden font-serif text-lg font-semibold tracking-tight text-foreground sm:inline">
@@ -84,9 +84,9 @@ export function SiteHeader() {
                 <Image
                   src="/images/logo.jpg"
                   alt={`${dict.brand.name} logo`}
-                  width={32}
-                  height={32}
-                  className="h-8 w-8 rounded-md object-cover"
+                  width={40}
+                  height={40}
+                  className="h-10 w-10 rounded-md object-cover"
                 />
                 {dict.brand.name}
               </span>
