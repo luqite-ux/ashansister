@@ -76,8 +76,8 @@ const en = {
         "A SHAN SISTER was founded in 2016 in Lihu Town, Puning — a part of Guangdong Province long associated with preserved-fruit production.",
         "The company operates as a source manufacturer: raw-material sourcing, product development, production and sales are integrated in one operation, supplying both bulk wholesale buyers and OEM/ODM private-label partners.",
       ],
-      image: "/images/facility-office.jpg",
-      imageAlt: "A SHAN SISTER office space",
+      image: "/images/facility-exterior.jpg",
+      imageAlt: "Exterior of the A SHAN SISTER production facility in Lihu Town, Puning",
       cta: { label: "Read more about us", href: "/about" },
     },
     featured: {
