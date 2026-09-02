@@ -102,7 +102,12 @@ export function HeroCarousel() {
               />
             </div>
 
-            <div className="relative z-10 flex h-full max-w-6xl flex-col justify-end px-4 pb-14 sm:mx-auto sm:px-6 sm:pb-16 lg:px-8 lg:pb-20">
+            <div
+              className={cn(
+                "relative z-10 flex h-full max-w-6xl flex-col justify-end px-4 pb-14 sm:mx-auto sm:px-6 sm:pb-16 lg:px-8 lg:pb-20",
+                i === 2 && "lg:items-end lg:text-right",
+              )}
+            >
               <p className="max-w-md text-xs font-semibold uppercase tracking-[0.14em] text-[#f5ead4] sm:text-sm">
                 {slide.eyebrow}
               </p>
@@ -118,7 +123,7 @@ export function HeroCarousel() {
               <p className="mt-4 max-w-lg text-pretty text-sm leading-relaxed text-[#f0e6d3] sm:text-base">
                 {slide.body}
               </p>
-              <div className="mt-6 flex flex-wrap gap-3">
+              <div className={cn("mt-6 flex flex-wrap gap-3", i === 2 && "lg:justify-end")}>
                 <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
                   <Link href={slide.ctaPrimary.href}>{slide.ctaPrimary.label}</Link>
                 </Button>
