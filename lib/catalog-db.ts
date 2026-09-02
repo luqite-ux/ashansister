@@ -50,7 +50,7 @@ function toProduct(row: ProductRow, locale: string): Product {
     description: [localized(row.overview_i18n, locale, description)],
     image: row.image_url || "/images/product-image-pending.svg",
     imageAlt: `${localized(row.name_i18n, locale, row.name_en || row.name || "Product")} — customer-supplied product photograph`,
-    gallery: gallery.slice(1).map((src, index) => ({ src, alt: `Product photograph ${index + 2}` })),
+    gallery: gallery.map((src, index) => ({ src, alt: `Product photograph ${index + 1}` })),
     packagingNote: specification ? `Carton specification: ${specification}. Packaging details are confirmed per order.` : "Packaging details are confirmed per order.",
     imageStatus: typeof extra.image_status === "string" ? extra.image_status : "verified-customer-source",
   }

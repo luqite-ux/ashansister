@@ -69,11 +69,11 @@ function toProduct(item: CatalogProduct): Product {
     category,
     shortDescription: description,
     description: [description],
-    image: images[0] || "/images/product-image-pending.svg",
+    image: item.image_status === "verified-customer-source" ? `/images/card-covers-v3/${item.sku}.webp` : "/images/product-image-pending.svg",
     imageAlt: images.length > 0 ? `${item.name_i18n.en} — customer-supplied product photograph` : `${item.name_i18n.en} — image pending source verification`,
-    gallery: images.slice(1).map((src, index) => ({
+    gallery: images.map((src, index) => ({
       src,
-      alt: `${item.name_i18n.en} — customer-supplied product photograph ${index + 2}`,
+      alt: `${item.name_i18n.en} — customer-supplied product photograph ${index + 1}`,
     })),
     packagingNote: item.specification
       ? `Carton specification: ${item.specification}. Packaging details are confirmed per order.`
