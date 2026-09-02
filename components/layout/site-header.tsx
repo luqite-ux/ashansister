@@ -30,11 +30,11 @@ export function SiteHeader() {
       <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-4 px-4 sm:px-6 lg:h-20 lg:px-8">
         <Link href="/" className="flex items-center gap-2 shrink-0" aria-label={`${dict.brand.name} — Home`}>
           <Image
-            src="/images/logo.jpg"
+            src="/images/logo-header.webp"
             alt={`${dict.brand.name} logo`}
             width={64}
             height={64}
-            className="h-12 w-12 rounded-lg object-cover lg:h-16 lg:w-16"
+            className="h-12 w-16 object-contain lg:h-16 lg:w-20"
             priority
           />
           <span className="hidden font-serif text-lg font-semibold tracking-tight text-foreground sm:inline">
@@ -82,11 +82,11 @@ export function SiteHeader() {
             <SheetTitle className="flex items-center justify-between font-serif text-lg">
               <span className="flex items-center gap-2">
                 <Image
-                  src="/images/logo.jpg"
+                  src="/images/logo-header.webp"
                   alt={`${dict.brand.name} logo`}
                   width={40}
                   height={40}
-                  className="h-10 w-10 rounded-md object-cover"
+                  className="h-10 w-14 object-contain"
                 />
                 {dict.brand.name}
               </span>
