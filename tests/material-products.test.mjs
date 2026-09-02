@@ -19,9 +19,9 @@ test('keeps prohibited warranty and guarantee claims out of product content', ()
   assert.doesNotMatch(text, /质保|保修|质量保证|warrant(?:y|ies)|guarantee(?:d)?/i)
 })
 
-test('marks the unverified MT002 image as non-publishable', () => {
+test('publishes the owner-confirmed MT002 product photograph', () => {
   const product = source.find((item) => item.sku === 'MT002')
   assert.ok(product)
-  assert.equal(product.image_status, 'blocked-unverified-generated-reference')
-  assert.deepEqual(product.images, [])
+  assert.equal(product.image_status, 'verified-customer-source')
+  assert.deepEqual(product.images, ['/images/products/MT002-owner-confirmed.png'])
 })

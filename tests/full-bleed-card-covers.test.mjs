@@ -25,7 +25,7 @@ test('full-bleed cover manifest records overlay-free source choices', async () =
 
   assert.equal(manifest.method, 'full-bleed square covers; promotional Chinese overlays excluded; real product labels and logos preserved')
   assert.equal(manifest.covers.length, 34)
-  assert.equal(manifest.covers.find((cover) => cover.sku === 'MT002').status, 'blocked-unverified-source')
+  assert.equal(manifest.covers.find((cover) => cover.sku === 'MT002').status, 'derived-card-cover-v3')
   assert.equal(manifest.covers.find((cover) => cover.sku === 'CP005').source, '/images/products/CP005-2.jpeg')
   assert.equal(manifest.covers.find((cover) => cover.sku === 'CP007').source, '/images/products/CP007-2.jpeg')
   assert.equal(manifest.covers.find((cover) => cover.sku === 'CP010').source, '/images/products/CP010-2.png')

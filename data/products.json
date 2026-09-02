@@ -1042,8 +1042,10 @@
       "en": []
     },
     "specification": "1*10kg",
-    "images": [],
-    "image_status": "blocked-unverified-generated-reference",
+    "images": [
+      "/images/products/MT002-owner-confirmed.png"
+    ],
+    "image_status": "verified-customer-source",
     "source_row": 31
   },
   {
