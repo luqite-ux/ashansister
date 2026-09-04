@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next"
+import Script from "next/script"
 import { Inter, Fraunces, Geist_Mono, Geist } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { SiteHeader } from "@/components/layout/site-header"
@@ -83,6 +84,7 @@ export default function RootLayout({
         <main id="main-content">{children}</main>
         <SiteFooter />
         {process.env.NODE_ENV === "production" && <Analytics />}
+        <Script src="/api/analytics.js" strategy="afterInteractive" />
       </body>
     </html>
   )
